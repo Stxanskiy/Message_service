@@ -1,0 +1,5 @@
+FROM migrate/migrate:latest
+
+RUN apk add --no-cache postgresql-client
+
+CMD ["sh", "-c", "while ! pg_isready -h postgres -p 5432 -U user; do sleep 1; done; migrate -path /migrations -database postgres://user:password@postgres:5432/messages?sslmode=disable up"]
